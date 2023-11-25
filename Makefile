@@ -1,6 +1,6 @@
-PROJECT_NAME=ankiterm-app
-BIN_NAMES=ankiterm
-APP=ankiterm
+PROJECT_NAME=hashcard-app
+BIN_NAMES=hashcard
+APP=hashcard
 GOARCHS=amd64 386 arm arm64
 GOARCHS_MAC=amd64 arm64
 INSTALL_DIR=/usr/local/bin

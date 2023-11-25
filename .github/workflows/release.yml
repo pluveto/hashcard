@@ -3,7 +3,7 @@ name: Build and Package on Tag
 on:
   push:
     tags:
-      - '*'
+      - "v*.*.*"
 
 jobs:
   build-and-release:
@@ -11,12 +11,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up Go
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@v4
         with:
-          go-version: '1.21' # 你可以指定你的Go版本
+          go-version: '1.21'
 
       - name: Test
         run: make test
@@ -35,3 +35,17 @@ jobs:
           body: 'Release'
           draft: false
           prerelease: false
+
+      - name: Create releases
+        run: |
+          for dir in dist/*; do
+            platform=$(basename "$dir")
+            zip -j "hashcard-$platform.zip" "$dir"/*
+          done
+
+      - name: Upload releases to GitHub
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            hashcard-*.zip
+          fail_on_unmatched_files: true
