@@ -2,6 +2,8 @@
 
 Hashcard is a command-line tool that scans markdown (`.md`) files within a specified directory, identifies special card markers, and extracts content into a structured JSON format.
 
+Generated JSON files can be easily imported into [Anki](https://apps.ankiweb.net/) or other flashcard apps.
+
 ## Usage
 
 Assert that the following markdown file exists at `./cards.md`:
@@ -16,10 +18,20 @@ Front of Card 2
 Back of Card 2`
 ```
 
+i.e. seperate cards with `---` and mark each card with `#card <!--id-->` to distinguish front and back.
+
+> NOTE: id should be unique because it is used as the key of the card. This is important when you want to sync cards between different versions where the front text may be different but the id is the same.
+
 Run the following command:
 
 ```bash
-./hash_card --dir . --strategy md-json --out-dir ./out
+./hash_card
+```
+
+This is equivalent to:
+
+```bash
+./hash_card  --dir . --strategy md-json --out-dir ./out
 ```
 
 The program will create a file named `cards.json` in the `./out` directory with the following contents:
@@ -41,23 +53,18 @@ The program will create a file named `cards.json` in the `./out` directory with 
 
 ## Installation
 
-To use hashcard, you need to have Go installed on your system. If you don't have Go installed, you can download it from the [official Go website](https://golang.org/dl/).
+You can download from the [releases page](https://github.com/pluveto/hashcard/releases).
 
-After installing Go, you can build the program using the following command:
+Or you can build from source:
 
-```bash
-go build -o hash_card
-```
+To use hashcard from source, you need to have Go installed on your system. If you don't have Go installed, you can download it from the [official Go website](https://golang.org/dl/).
 
-This will compile the source code into an executable file named `hash_card`.
+Also make sure that you have the `make` command installed on your system.
 
-## Usage
-
-You can run the program with the following command-line arguments:
+Then build, using the following command:
 
 ```bash
-./hash_card --dir <directory> --strategy md-json --out-dir <output-directory>
+make build
 ```
 
-- `--dir`: The directory to scan for markdown files.
-- `--strategy`: The strategy for processing markdown files (currently
+Artifacts will be placed in the `./dist` directory.
